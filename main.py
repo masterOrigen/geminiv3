@@ -68,7 +68,7 @@ if selected == 'ChatBot':
 
 
 # Image captioning page
-if selected == "Image Captioning":
+if selected == "Resumen de Imagenes":
 
     st.title("📷 Imagenes")
 
