@@ -22,8 +22,8 @@ with st.sidebar:
     selected = option_menu('Gemini AI',
                            ['ChatBot',
                             'Resumen de Imagenes',
-                            'Embed text',
-                            'Ask me anything'],
+                            'Embeber texto',
+                            'Preguntas y Respuestas'],
                            menu_icon='robot', icons=['chat-dots-fill', 'image-fill', 'textarea-t', 'patch-question-fill'],
                            default_index=0
                            )
@@ -46,7 +46,7 @@ if selected == 'ChatBot':
         st.session_state.chat_session = model.start_chat(history=[])
 
     # Display the chatbot's title on the page
-    st.title("🤖 ChatBot")
+    st.title("🤖 ChatBot GPT MEDIOS")
 
     # Display the chat history
     for message in st.session_state.chat_session.history:
@@ -70,11 +70,11 @@ if selected == 'ChatBot':
 # Image captioning page
 if selected == "Image Captioning":
 
-    st.title("📷 Snap Narrate")
+    st.title("📷 Imagenes")
 
     uploaded_image = st.file_uploader("Upload an image...", type=["jpg", "jpeg", "png"])
 
-    if st.button("Generate Caption"):
+    if st.button("Generar Captura"):
         image = Image.open(uploaded_image)
 
         col1, col2 = st.columns(2)
@@ -83,7 +83,7 @@ if selected == "Image Captioning":
             resized_img = image.resize((800, 500))
             st.image(resized_img)
 
-        default_prompt = "write a short caption for this image"  # change this prompt as per your requirement
+        default_prompt = "escribe un resumen sobre lo que puedes ver en esta imagen, siempre tu respuesta debe ser en español."  # change this prompt as per your requirement
 
         # get the caption of the image from the gemini-pro-vision LLM
         caption = gemini_pro_vision_response(default_prompt, image)
@@ -93,7 +93,7 @@ if selected == "Image Captioning":
 
 
 # text embedding model
-if selected == "Embed text":
+if selected == "Embeber texto":
 
     st.title("🔡 Embed Text")
 
