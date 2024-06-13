@@ -18,12 +18,12 @@ st.set_page_config(
 )
 
 with st.sidebar:
-    selected = option_menu('Gemini AI',
+    selected = option_menu('GPT MEDIOS - Gemini AI',
                            ['ChatBot',
-                            'Image Captioning',
-                            'Embed text',
-                            'Ask me anything',
-                            'PDF Interaction'],  # Nueva opción para interactuar con PDF
+                            'Imagen',
+                            'Texto Embebido',
+                            'Pregunta Algo',
+                            'Interacción PDF'],  # Nueva opción para interactuar con PDF
                            menu_icon='robot', icons=['chat-dots-fill', 'image-fill', 'textarea-t', 'patch-question-fill', 'file-pdf-fill'],  # Nuevo icono para PDF
                            default_index=0
                            )
@@ -44,7 +44,7 @@ if selected == 'ChatBot':
     if "chat_session" not in st.session_state:
         st.session_state.chat_session = model.start_chat(history=[])
 
-    st.title("🤖 ChatBot")
+    st.title("ChatBot IA")
 
     for message in st.session_state.chat_session.history:
         with st.chat_message(translate_role_for_streamlit(message.role)):
@@ -61,12 +61,12 @@ if selected == 'ChatBot':
 
 
 # Image captioning page
-if selected == "Image Captioning":
-    st.title("📷 Snap Narrate")
+if selected == "Imagen":
+    st.title("Generar Caption")
 
     uploaded_image = st.file_uploader("Upload an image...", type=["jpg", "jpeg", "png"])
 
-    if st.button("Generate Caption"):
+    if st.button("Generación de Caption"):
         image = Image.open(uploaded_image)
 
         col1, col2 = st.columns(2)
