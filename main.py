@@ -8,7 +8,7 @@ from gemini_utility import (load_gemini_pro_model,
                             embeddings_model_response)
 import PyPDF4
 import io
-import pytube
+from pytube import YouTube
 
 # Establecer el directorio de trabajo
 working_dir = os.path.dirname(os.path.abspath(__file__))
@@ -128,23 +128,8 @@ if selected == "Interacción PDF":
             st.markdown(response_pdf)
 
 # Página de video de YouTube
-if selected == "Video de YouTube":
+if selected == "🎬 Video de YouTube":
     st.title("🎬 Video de YouTube")
 
     youtube_url = st.text_input("Insertar URL de YouTube:")
-    if youtube_url:
-        try:
-            yt = pytube.YouTube(youtube_url)
-            st.write("Título:", yt.title)
-            st.write("Vistas:", yt.views)
-            st.write("Descripción:", yt.description)
-
-            # Obtener transcripción del video
-            caption = yt.captions.get_by_language_code('es')
-            if caption:
-                st.write("Transcripción del video:")
-                st.write(caption.generate_srt_captions())
-            else:
-                st.warning("No se encontró la transcripción del video.")
-        except pytube.exceptions.RegexMatchError:
-            st.error("URL de YouTube no válida.")
+   
