@@ -6,4 +6,6 @@ scipy
 scikit-learn
 nltk
 gensim
+streamlit_option_menu
+
 
