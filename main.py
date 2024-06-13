@@ -114,11 +114,11 @@ if selected == "PDF Interaction":
         st.write("PDF file uploaded:", uploaded_pdf.name)
 
         # Leer el contenido del PDF
-        with open(uploaded_pdf.name, "rb") as file:
-            reader = PyPDF2.PdfFileReader(file)
-            text = ""
-            for page_num in range(reader.numPages):
-                text += reader.getPage(page_num).extractText()
+        pdf_contents = uploaded_pdf.read()
+        reader = PyPDF2.PdfFileReader(pdf_contents)
+        text = ""
+        for page_num in range(reader.numPages):
+            text += reader.getPage(page_num).extractText()
 
         # Realizar preguntas sobre el contenido del PDF
         st.title("Ask questions about the PDF:")
