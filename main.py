@@ -75,7 +75,7 @@ if selected == "Imagen":
             resized_img = image.resize((800, 500))
             st.image(resized_img)
 
-        default_prompt = "write a short caption for this image"
+        default_prompt = "Escribre una descripción para esta imagen, recuerda responder siempre en español"
 
         caption = gemini_pro_vision_response(default_prompt, image)
 
@@ -84,19 +84,19 @@ if selected == "Imagen":
 
 # Modelo de incrustación de texto
 if selected == "Texto Embebido":
-    st.title("🔡 Embed Text")
+    st.title("🔡 Embeber Texto")
 
     user_prompt = st.text_area(label='', placeholder="Enter the text to get embeddings")
 
-    if st.button("Get Response"):
+    if st.button("Respuesta"):
         response = embeddings_model_response(user_prompt)
         st.markdown(response)
 
 # Preguntar cualquier cosa
 if selected == "Pregunta Algo":
-    st.title("❓ Ask me a question")
+    st.title("Preguntar Algo")
 
-    user_prompt = st.text_area(label='', placeholder="Ask me anything...")
+    user_prompt = st.text_area(label='', placeholder="Pregunta Algo...")
 
     if st.button("Get Response"):
         response = gemini_pro_response(user_prompt)
@@ -106,7 +106,7 @@ if selected == "Pregunta Algo":
 if selected == "Interacción PDF":
     st.title("📄 PDF Interaction")
 
-    uploaded_pdf = st.file_uploader("Upload a PDF file...", type="pdf")
+    uploaded_pdf = st.file_uploader("Subir PDF...", type="pdf")
 
     if uploaded_pdf is not None:
         st.write("PDF file uploaded:", uploaded_pdf.name)
@@ -121,7 +121,7 @@ if selected == "Interacción PDF":
 
         # Realizar preguntas sobre el contenido del PDF
         st.title("Ask questions about the PDF:")
-        user_prompt_pdf = st.text_area(label='', placeholder="Ask a question about the PDF...")
+        user_prompt_pdf = st.text_area(label='', placeholder="Preguntar sobre el PDF...")
         if st.button("Get Response"):
             response_pdf = gemini_pro_response(user_prompt_pdf, context=text)  # Aquí se pasa el contexto
             st.markdown(response_pdf)
