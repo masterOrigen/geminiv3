@@ -1,14 +1,9 @@
 import os
-
-from PIL import Image
 import streamlit as st
+from PIL import Image
 from streamlit_option_menu import option_menu
-
-from gemini_utility import (load_gemini_pro_model,
-                            gemini_pro_response,
-                            gemini_pro_vision_response,
-                            embeddings_model_response)
-
+from gemini_utility import (load_gemini_pro_model, gemini_pro_response,
+                            gemini_pro_vision_response, embeddings_model_response)
 
 working_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -27,91 +22,59 @@ with st.sidebar:
                            default_index=0
                            )
 
-
-# Function to translate roles between Gemini-Pro and Streamlit terminology
-def translate_role_for_streamlit(user_role):
-    if user_role == "model":
-        return "assistant"
+# Función para traducir roles entre Gemini-Pro y Streamlit
+def traducir_rol_para_streamlit(rol_usuario):
+    if rol_usuario == "modelo":
+        return "asistente"
     else:
-        return user_role
+        return rol_usuario
 
-
-# chatbot page
+# Página del chatbot
 if selected == 'ChatBot':
-    model = load_gemini_pro_model()
-
-    # Initialize chat session in Streamlit if not already present
-    if "chat_session" not in st.session_state:  # Renamed for clarity
-        st.session_state.chat_session = model.start_chat(history=[])
-
-    # Display the chatbot's title on the page
+    modelo = load_gemini_pro_model()
+    if "sesion_chat" not in st.session_state:
+        st.session_state.sesion_chat = modelo.start_chat(historia=[])
     st.title("ChatBot GPT MEDIOS")
+    for mensaje in st.session_state.sesion_chat.historia:
+        with st.chat_message(traducir_rol_para_streamlit(mensaje.rol)):
+            st.markdown(mensaje.partes[0].texto)
+    pregunta_usuario = st.chat_input("Pregunta a Gemini-Pro...")
+    if pregunta_usuario:
+        st.chat_message("usuario").markdown(pregunta_usuario)
+        respuesta_gemini = st.session_state.sesion_chat.send_message(pregunta_usuario)
+        with st.chat_message("asistente"):
+            st.markdown(respuesta_gemini.texto)
 
-    # Display the chat history
-    for message in st.session_state.chat_session.history:
-        with st.chat_message(translate_role_for_streamlit(message.role)):
-            st.markdown(message.parts[0].text)
-
-    # Input field for user's message
-    user_prompt = st.chat_input("Ask Gemini-Pro...")  # Renamed for clarity
-    if user_prompt:
-        # Add user's message to chat and display it
-        st.chat_message("user").markdown(user_prompt)
-
-        # Send user's message to Gemini-Pro and get the response
-        gemini_response = st.session_state.chat_session.send_message(user_prompt)  # Renamed for clarity
-
-        # Display Gemini-Pro's response
-        with st.chat_message("assistant"):
-            st.markdown(gemini_response.text)
-
-
-# Image captioning page
+# Página de resumen de imágenes
 if selected == "Resumen de Imagenes":
+    st.title("📷 Imágenes")
+    archivo_subido = st.file_uploader("Sube una imagen o archivo PDF:", type=["jpg", "jpeg", "png", "pdf"])
+    if archivo_subido is not None:
+        if archivo_subido.type.startswith('image'):
+            imagen = Image.open(archivo_subido)
+            col1, col2 = st.columns(2)
+            with col1:
+                imagen_redimensionada = imagen.resize((800, 500))
+                st.image(imagen_redimensionada)
+            prompt_predeterminado = "Escribe un resumen sobre lo que puedes ver en esta imagen, siempre tu respuesta debe ser en español."
+            descripcion = gemini_pro_vision_response(prompt_predeterminado, imagen)
+            with col2:
+                st.info(descripcion)
+        elif archivo_subido.type == 'application/pdf':
+            st.write("Archivo PDF subido:", archivo_subido.name)
 
-    st.title("📷 Imagenes")
-
-    uploaded_image = st.file_uploader("Upload an image...", type=["jpg", "jpeg", "png"])
-
-    if st.button("Generar Captura"):
-        image = Image.open(uploaded_image)
-
-        col1, col2 = st.columns(2)
-
-        with col1:
-            resized_img = image.resize((800, 500))
-            st.image(resized_img)
-
-        default_prompt = "escribe un resumen sobre lo que puedes ver en esta imagen, siempre tu respuesta debe ser en español."  # change this prompt as per your requirement
-
-        # get the caption of the image from the gemini-pro-vision LLM
-        caption = gemini_pro_vision_response(default_prompt, image)
-
-        with col2:
-            st.info(caption)
-
-
-# text embedding model
+# Página del modelo de incrustación de texto
 if selected == "Embeber texto":
+    st.title("🔡 Incrustar Texto")
+    prompt_usuario = st.text_area(label='', placeholder="Ingresa el texto para obtener incrustaciones")
+    if st.button("Obtener Respuesta"):
+        respuesta = embeddings_model_response(prompt_usuario)
+        st.markdown(respuesta)
 
-    st.title("🔡 Embed Text")
-
-    # text box to enter prompt
-    user_prompt = st.text_area(label='', placeholder="Enter the text to get embeddings")
-
-    if st.button("Get Response"):
-        response = embeddings_model_response(user_prompt)
-        st.markdown(response)
-
-
-# text embedding model
+# Página del modelo de preguntas y respuestas
 if selected == "Preguntas y Respuestas":
-
     st.title("Preguntas y Respuestas❓")
-
-    # text box to enter prompt
-    user_prompt = st.text_area(label='', placeholder="Escribe tu consulta...")
-
-    if st.button("Get Response"):
-        response = gemini_pro_response(user_prompt)
-        st.markdown(response)
+    pregunta_usuario = st.text_area(label='', placeholder="Escribe tu consulta...")
+    if st.button("Obtener Respuesta"):
+        respuesta = gemini_pro_response(pregunta_usuario)
+        st.markdown(respuesta)
