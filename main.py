@@ -128,8 +128,7 @@ if selected == "Interacción PDF":
             st.markdown(response_pdf)
 
 # Página de video de YouTube
-if selected == "🎬 Video de YouTube":
+if selected == "Video de YouTube":
     st.title("🎬 Video de YouTube")
 
     youtube_url = st.text_input("Insertar URL de YouTube:")
-   
