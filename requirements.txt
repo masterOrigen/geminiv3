@@ -1,6 +1,11 @@
-google-generativeai
-pillow
 streamlit
-streamlit-option-menu
+Pillow
+PyPDF2
+numpy
+scipy
+scikit-learn
+nltk
+gensim
+
 
 
