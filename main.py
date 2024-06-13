@@ -1,7 +1,6 @@
 import os
 from PIL import Image
 import streamlit as st
-from streamlit_option_menu import option_menu
 from gemini_utility import (load_gemini_pro_model,
                             gemini_pro_response,
                             gemini_pro_vision_response,
@@ -21,15 +20,14 @@ st.set_page_config(
 
 # Crear el menú de opciones en la barra lateral
 with st.sidebar:
-    selected = option_menu('GPT MEDIOS - Gemini AI',
+    selected = st.selectbox('GPT MEDIOS - Gemini AI',
                            ['ChatBot',
                             'Imagen',
                             'Texto Embebido',
                             'Pregunta Algo',
                             'Interacción PDF',
                             'Video de YouTube'],  # Nueva opción para interactuar con YouTube
-                           menu_icon='robot', icons=['chat-dots-fill', 'image-fill', 'textarea-t', 'patch-question-fill', 'file-pdf-fill', 'youtube-fill'],  # Nuevo icono para YouTube
-                           default_index=0
+                           index=0
                            )
 
 # Función para traducir roles entre Gemini-Pro y Streamlit
@@ -52,7 +50,7 @@ if selected == 'ChatBot':
         with st.chat_message(translate_role_for_streamlit(message.role)):
             st.markdown(message.parts[0].text)
 
-    user_prompt = st.chat_input("Realizar consulta...")
+    user_prompt = st.text_input("Realizar consulta...")
     if user_prompt:
         st.chat_message("user").markdown(user_prompt)
 
@@ -132,3 +130,13 @@ if selected == "Video de YouTube":
     st.title("🎬 Video de YouTube")
 
     youtube_url = st.text_input("Insertar URL de YouTube:")
+
+    if st.button("Cargar Video"):
+        yt = YouTube(youtube_url)
+        st.write("Título del Video:", yt.title)
+        st.write("Vistas:", yt.views)
+        st.write("Rating:", yt.rating)
+        st.write("Duración:", yt.length)
+        st.write("Descripción:", yt.description)
+        st.write("Miniatura:")
+        st.image(yt.thumbnail_url, use_column_width=True)
