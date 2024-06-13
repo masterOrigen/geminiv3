@@ -62,6 +62,10 @@ if selected == "Resumen de Imagenes":
                 st.info(descripcion)
         elif archivo_subido.type == 'application/pdf':
             st.write("Archivo PDF subido:", archivo_subido.name)
+            pregunta_usuario = st.text_area("Haz una pregunta sobre el contenido del PDF:")
+            if pregunta_usuario:
+                respuesta = gemini_pro_response(pregunta_usuario)
+                st.markdown(respuesta)
 
 # Página del modelo de incrustación de texto
 if selected == "Embeber texto":
