@@ -21,7 +21,7 @@ st.set_page_config(
 with st.sidebar:
     selected = option_menu('Gemini AI',
                            ['ChatBot',
-                            'Image Captioning',
+                            'Resumen de Imagenes',
                             'Embed text',
                             'Ask me anything'],
                            menu_icon='robot', icons=['chat-dots-fill', 'image-fill', 'textarea-t', 'patch-question-fill'],
