@@ -1,6 +1,5 @@
 streamlit
 Pillow
-PyPDF2
 numpy
 scipy
 scikit-learn
@@ -8,7 +7,7 @@ nltk
 gensim
 streamlit-option-menu==0.3.12
 google-generativeai==0.4.0
-PyPDF2
+PyPDF4==1.27.0
 
 
 
