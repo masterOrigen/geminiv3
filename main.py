@@ -1,4 +1,4 @@
-import os
+lizaimport os
 from PIL import Image
 import streamlit as st
 from streamlit_option_menu import option_menu
@@ -50,7 +50,7 @@ if selected == 'ChatBot':
         with st.chat_message(translate_role_for_streamlit(message.role)):
             st.markdown(message.parts[0].text)
 
-    user_prompt = st.chat_input("Ask Gemini-Pro...")
+    user_prompt = st.chat_input("Realizar consulta...")
     if user_prompt:
         st.chat_message("user").markdown(user_prompt)
 
