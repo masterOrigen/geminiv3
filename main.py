@@ -106,12 +106,12 @@ if selected == "Embeber texto":
 
 
 # text embedding model
-if selected == "Ask me anything":
+if selected == "Preguntas y Respuestas":
 
-    st.title("❓ Ask me a question")
+    st.title("❓ Preguntas y Respuestas")
 
     # text box to enter prompt
-    user_prompt = st.text_area(label='', placeholder="Ask me anything...")
+    user_prompt = st.text_area(label='', placeholder="Escribe tu consulta...")
 
     if st.button("Get Response"):
         response = gemini_pro_response(user_prompt)
