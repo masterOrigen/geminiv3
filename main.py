@@ -45,7 +45,7 @@ if selected == 'ChatBot':
         st.session_state.chat_session = model.start_chat(history=[])
 
     # Display the chatbot's title on the page
-    st.title("🤖 ChatBot GPT MEDIOS")
+    st.title("ChatBot GPT MEDIOS")
 
     # Display the chat history
     for message in st.session_state.chat_session.history:
