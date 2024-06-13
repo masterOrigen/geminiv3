@@ -1,6 +1,7 @@
 import os
 import streamlit as st
 from PIL import Image
+from PyPDF2 import PdfFileReader
 from streamlit_option_menu import option_menu
 from gemini_utility import (load_gemini_pro_model, gemini_pro_response,
                             gemini_pro_vision_response, embeddings_model_response)
@@ -62,10 +63,17 @@ if selected == "Resumen de Imagenes":
                 st.info(descripcion)
         elif archivo_subido.type == 'application/pdf':
             st.write("Archivo PDF subido:", archivo_subido.name)
-            pregunta_usuario = st.text_area("Haz una pregunta sobre el contenido del PDF:")
-            if pregunta_usuario:
-                respuesta = gemini_pro_response(pregunta_usuario)
-                st.markdown(respuesta)
+            # Leer el contenido del PDF
+            with open(archivo_subido.name, "rb") as f:
+                pdf_reader = PdfFileReader(f)
+                text = ""
+                for page_num in range(pdf_reader.numPages):
+                    page = pdf_reader.getPage(page_num)
+                    text += page.extractText()
+            # Generar un resumen del contenido del PDF
+            resumen = embeddings_model_response(text)
+            st.header("Resumen del contenido del PDF:")
+            st.write(resumen)
 
 # Página del modelo de incrustación de texto
 if selected == "Embeber texto":
