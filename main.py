@@ -115,7 +115,7 @@ if selected == "PDF Interaction":
 
         # Leer el contenido del PDF
         pdf_contents = uploaded_pdf.read()
-        reader = PyPDF2.PdfFileReader(pdf_contents)
+        reader = PyPDF4.PdfFileReader(pdf_contents)
         text = ""
         for page_num in range(reader.numPages):
             text += reader.getPage(page_num).extractText()
