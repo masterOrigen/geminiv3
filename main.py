@@ -156,5 +156,12 @@ if selected == "Video YouTube":
             st.write(f"Descripción: {video_info['description']}")
             st.write(f"Fecha de publicación: {video_info['publishedAt']}")
             st.write(f"Canal: {video_info['channelTitle']}")
+
+            st.header("Realizar una pregunta sobre el video:")
+            pregunta = st.text_area("Escribe tu pregunta aquí:")
+            if st.button("Enviar pregunta"):
+                # Aquí puedes agregar la lógica para enviar la pregunta a algún servicio o base de datos
+                st.success("¡Pregunta enviada con éxito!")
+
         else:
             st.error("No se pudo obtener la información del video. Por favor, verifica la URL y asegúrate de que el video sea público.")
