@@ -6,7 +6,7 @@ from gemini_utility import (load_gemini_pro_model,
                             gemini_pro_response,
                             gemini_pro_vision_response,
                             embeddings_model_response)
-import PyPDF2
+import PyPDF4
 
 working_dir = os.path.dirname(os.path.abspath(__file__))
 
