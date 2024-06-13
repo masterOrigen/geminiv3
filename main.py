@@ -14,8 +14,7 @@ working_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Configurar la página de Streamlit
 st.set_page_config(
-    page_title="Gemini AI",
-    page_icon="🧠",
+    page_title="GTP MEDIOS - Gemini AI",
     layout="centered",
 )
 
