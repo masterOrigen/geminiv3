@@ -6,6 +6,7 @@ from gemini_utility import (load_gemini_pro_model,
                             gemini_pro_response,
                             gemini_pro_vision_response,
                             embeddings_model_response)
+import PyPDF2
 
 working_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -111,4 +112,17 @@ if selected == "PDF Interaction":
 
     if uploaded_pdf is not None:
         st.write("PDF file uploaded:", uploaded_pdf.name)
-        # Aquí puedes agregar la lógica para interactuar con el PDF, como leer el contenido, resumirlo, etc.
+
+        # Leer el contenido del PDF
+        with open(uploaded_pdf.name, "rb") as file:
+            reader = PyPDF2.PdfFileReader(file)
+            text = ""
+            for page_num in range(reader.numPages):
+                text += reader.getPage(page_num).extractText()
+
+        # Realizar preguntas sobre el contenido del PDF
+        st.title("Ask questions about the PDF:")
+        user_prompt_pdf = st.text_area(label='', placeholder="Ask a question about the PDF...")
+        if st.button("Get Response"):
+            response_pdf = gemini_pro_response(user_prompt_pdf, context=text)
+            st.markdown(response_pdf)
