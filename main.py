@@ -9,6 +9,7 @@ from gemini_utility import (load_gemini_pro_model,
 import PyPDF4
 import io
 from pytube import YouTube
+from urllib.error import HTTPError
 
 # Establecer el directorio de trabajo
 working_dir = os.path.dirname(os.path.abspath(__file__))
@@ -140,5 +141,10 @@ if selected == "Video YouTube":
             st.write(f"Descripción: {yt.description}")
             st.write(f"Vistas: {yt.views}")
             st.write(f"Puntuación: {yt.rating}")
+        except HTTPError as e:
+            if e.code == 410:
+                st.error("El video de YouTube ya no está disponible.")
+            else:
+                st.error(f"Ocurrió un error al procesar el video de YouTube: {e}")
         except Exception as e:
             st.error(f"Ocurrió un error al procesar el video de YouTube: {e}")
