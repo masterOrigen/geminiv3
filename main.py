@@ -135,16 +135,25 @@ if selected == "Video YouTube":
     youtube_url = st.text_input("Inserta la URL del video de YouTube")
 
     if youtube_url:
-        try:
-            yt = YouTube(youtube_url)
-            st.write(f"Titulo: {yt.title}")
-            st.write(f"Descripción: {yt.description}")
-            st.write(f"Vistas: {yt.views}")
-            st.write(f"Puntuación: {yt.rating}")
-        except HTTPError as e:
-            if e.code == 410:
-                st.error("El video de YouTube ya no está disponible.")
-            else:
-                st.error(f"Ocurrió un error al procesar el video de YouTube: {e}")
-        except Exception as e:
-            st.error(f"Ocurrió un error al procesar el video de YouTube: {e}")
+        video_id = youtube_url.split("=")[-1]
+
+        # Llamar a la API de YouTube para obtener información sobre el video
+        api_key = "AIzaSyBVUkC1ka0lOWD3qk6ldQjqjgDlzCqNT5M"
+        base_url = "https://www.googleapis.com/youtube/v3/videos"
+        params = {
+            "part": "snippet",
+            "id": video_id,
+            "key": api_key
+        }
+
+        response = requests.get(base_url, params=params)
+        data = response.json()
+
+        if response.status_code == 200 and data.get("items"):
+            video_info = data["items"][0]["snippet"]
+            st.write(f"Título: {video_info['title']}")
+            st.write(f"Descripción: {video_info['description']}")
+            st.write(f"Fecha de publicación: {video_info['publishedAt']}")
+            st.write(f"Canal: {video_info['channelTitle']}")
+        else:
+            st.error("No se pudo obtener la información del video. Por favor, verifica la URL y asegúrate de que el video sea público.")
