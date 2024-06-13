@@ -119,8 +119,8 @@ if selected == "Interacción PDF":
             text += reader.getPage(page_num).extractText()
 
         # Realizar preguntas sobre el contenido del PDF
-        st.title("Ask questions about the PDF:")
-        user_prompt_pdf = st.text_area(label='', placeholder="Preguntar sobre el PDF...")
+        st.title("Preguntar sobre el PDF:")
+        user_prompt_pdf = st.text_area(label='', placeholder="Realizar Consulta...")
         if st.button("Get Response"):
             response_pdf = gemini_pro_response(user_prompt_pdf, context=text)  # Aquí se pasa el contexto
             st.markdown(response_pdf)
