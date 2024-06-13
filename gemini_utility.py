@@ -43,10 +43,14 @@ def embeddings_model_response(input_text):
 
 # get response from Gemini-Pro model - text to text
 def gemini_pro_response(user_prompt, context=None):
+    full_prompt = user_prompt
+    if context:
+        full_prompt += "\nContext: " + context
     gemini_pro_model = genai.GenerativeModel("gemini-pro")
-    response = gemini_pro_model.generate_content(user_prompt, context=context)
+    response = gemini_pro_model.generate_content(full_prompt)
     result = response.text
     return result
+
 
 
 
