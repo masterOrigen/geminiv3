@@ -9,6 +9,7 @@ from gemini_utility import (load_gemini_pro_model,
 import PyPDF4
 import io
 import requests
+import youtube_dl
 
 # Establecer el directorio de trabajo
 working_dir = os.path.dirname(os.path.abspath(__file__))
