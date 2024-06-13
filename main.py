@@ -13,8 +13,7 @@ from gemini_utility import (load_gemini_pro_model,
 working_dir = os.path.dirname(os.path.abspath(__file__))
 
 st.set_page_config(
-    page_title="Gemini AI",
-    page_icon="🧠",
+    page_title="GPT MEDIOS - Gemini AI",
     layout="centered",
 )
 
