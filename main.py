@@ -1,3 +1,4 @@
+import os
 from PIL import Image
 import streamlit as st
 from streamlit_option_menu import option_menu
@@ -8,14 +9,17 @@ from gemini_utility import (load_gemini_pro_model,
 import PyPDF4
 import io
 
+# Establecer el directorio de trabajo
 working_dir = os.path.dirname(os.path.abspath(__file__))
 
+# Configurar la página de Streamlit
 st.set_page_config(
     page_title="Gemini AI",
     page_icon="🧠",
     layout="centered",
 )
 
+# Crear el menú de opciones en la barra lateral
 with st.sidebar:
     selected = option_menu('GPT MEDIOS - Gemini AI',
                            ['ChatBot',
@@ -27,16 +31,14 @@ with st.sidebar:
                            default_index=0
                            )
 
-
-# Function to translate roles between Gemini-Pro and Streamlit terminology
+# Función para traducir roles entre Gemini-Pro y Streamlit
 def translate_role_for_streamlit(user_role):
     if user_role == "model":
         return "assistant"
     else:
         return user_role
 
-
-# chatbot page
+# Página del chatbot
 if selected == 'ChatBot':
     model = load_gemini_pro_model()
 
@@ -58,8 +60,7 @@ if selected == 'ChatBot':
         with st.chat_message("assistant"):
             st.markdown(gemini_response.text)
 
-
-# Image captioning page
+# Página de generación de caption de imagen
 if selected == "Imagen":
     st.title("Generar Caption")
 
@@ -81,9 +82,8 @@ if selected == "Imagen":
         with col2:
             st.info(caption)
 
-
-# Text embedding model
-if selected == "Embed text":
+# Modelo de incrustación de texto
+if selected == "Texto Embebido":
     st.title("🔡 Embed Text")
 
     user_prompt = st.text_area(label='', placeholder="Enter the text to get embeddings")
@@ -92,9 +92,8 @@ if selected == "Embed text":
         response = embeddings_model_response(user_prompt)
         st.markdown(response)
 
-
-# Text embedding model
-if selected == "Ask me anything":
+# Preguntar cualquier cosa
+if selected == "Pregunta Algo":
     st.title("❓ Ask me a question")
 
     user_prompt = st.text_area(label='', placeholder="Ask me anything...")
@@ -103,9 +102,8 @@ if selected == "Ask me anything":
         response = gemini_pro_response(user_prompt)
         st.markdown(response)
 
-
-# PDF Interaction page
-if selected == "PDF Interaction":
+# Interacción con PDF
+if selected == "Interacción PDF":
     st.title("📄 PDF Interaction")
 
     uploaded_pdf = st.file_uploader("Upload a PDF file...", type="pdf")
