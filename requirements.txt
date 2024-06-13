@@ -8,7 +8,7 @@ gensim
 streamlit-option-menu==0.3.12
 google-generativeai==0.4.0
 PyPDF4==1.27.0
-pytube3==10.8.5
+pytube3
 
 
 
