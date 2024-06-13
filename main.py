@@ -8,6 +8,7 @@ from gemini_utility import (load_gemini_pro_model,
                             embeddings_model_response)
 import PyPDF4
 import io
+import pytube
 
 # Establecer el directorio de trabajo
 working_dir = os.path.dirname(os.path.abspath(__file__))
@@ -25,8 +26,9 @@ with st.sidebar:
                             'Imagen',
                             'Texto Embebido',
                             'Pregunta Algo',
-                            'Interacción PDF'],  # Nueva opción para interactuar con PDF
-                           menu_icon='robot', icons=['chat-dots-fill', 'image-fill', 'textarea-t', 'patch-question-fill', 'file-pdf-fill'],  # Nuevo icono para PDF
+                            'Interacción PDF',
+                            'Video de YouTube'],  # Nueva opción para interactuar con YouTube
+                           menu_icon='robot', icons=['chat-dots-fill', 'image-fill', 'textarea-t', 'patch-question-fill', 'file-pdf-fill', 'youtube-fill'],  # Nuevo icono para YouTube
                            default_index=0
                            )
 
@@ -124,3 +126,25 @@ if selected == "Interacción PDF":
         if st.button("Get Response"):
             response_pdf = gemini_pro_response(user_prompt_pdf, context=text)  # Aquí se pasa el contexto
             st.markdown(response_pdf)
+
+# Página de video de YouTube
+if selected == "Video de YouTube":
+    st.title("🎬 Video de YouTube")
+
+    youtube_url = st.text_input("Insertar URL de YouTube:")
+    if youtube_url:
+        try:
+            yt = pytube.YouTube(youtube_url)
+            st.write("Título:", yt.title)
+            st.write("Vistas:", yt.views)
+            st.write("Descripción:", yt.description)
+
+            # Obtener transcripción del video
+            caption = yt.captions.get_by_language_code('es')
+            if caption:
+                st.write("Transcripción del video:")
+                st.write(caption.generate_srt_captions())
+            else:
+                st.warning("No se encontró la transcripción del video.")
+        except pytube.exceptions.RegexMatchError:
+            st.error("URL de YouTube no válida.")
