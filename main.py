@@ -10,6 +10,7 @@ import PyPDF4
 import io
 from pytube import YouTube
 from urllib.error import HTTPError
+import requests
 
 # Establecer el directorio de trabajo
 working_dir = os.path.dirname(os.path.abspath(__file__))
