@@ -7,6 +7,7 @@ from gemini_utility import (load_gemini_pro_model,
                             gemini_pro_vision_response,
                             embeddings_model_response)
 import PyPDF4
+import io
 
 working_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -115,7 +116,8 @@ if selected == "PDF Interaction":
 
         # Leer el contenido del PDF
         pdf_contents = uploaded_pdf.read()
-        reader = PyPDF4.PdfFileReader(pdf_contents)
+        pdf_file = io.BytesIO(pdf_contents)
+        reader = PyPDF4.PdfFileReader(pdf_file)
         text = ""
         for page_num in range(reader.numPages):
             text += reader.getPage(page_num).extractText()
