@@ -107,7 +107,7 @@ if selected == "Embeber texto":
 # text embedding model
 if selected == "Preguntas y Respuestas":
 
-    st.title("❓ Preguntas y Respuestas")
+    st.title("Preguntas y Respuestas❓")
 
     # text box to enter prompt
     user_prompt = st.text_area(label='', placeholder="Escribe tu consulta...")
